@@ -12,6 +12,8 @@ const [node, setNode] = useState();
 const [dimensions, setDimensions] = useState({ window, screen });
 let height = dimensions.window.height;
 let width = dimensions.screen.width
+// console.log('height in hook: ', height)
+// console.log('width in hook: ',width)
 
 const ref = useCallback(node => {
   setNode(node);

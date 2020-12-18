@@ -14,7 +14,6 @@ async function changeScreenOrientation() {
 }
 
 export default function App() {
-      
   useEffect(() => {
     changeScreenOrientation()
   }, []);
