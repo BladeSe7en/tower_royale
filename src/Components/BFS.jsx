@@ -178,9 +178,11 @@ export default class BFS extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+
     this.state = {
-      hexSize: 30,
-      hexOrigin: { x: 30, y: 30 }
+      hexSize: 27,
+      hexOrigin: { x: 0, y: 28 }
 
     }
 
@@ -191,7 +193,7 @@ export default class BFS extends React.Component {
     console.log(hexParametres)
 
     this.setState({
-      canvasSize: { canvasWidth: 850, canvasHeight: 400 },
+      canvasSize: { canvasWidth: 850, canvasHeight: 300 },
       hexParametres: hexParametres
     })
   }
@@ -201,8 +203,97 @@ export default class BFS extends React.Component {
     const { canvasWidth, canvasHeight } = this.state.canvasSize;
     this.canvasHex.width = canvasWidth;
     this.canvasHex.height = canvasHeight;
-    this.drawHexes();
+   // this.canvasCoordinates.width = canvasWidth;
+   // this.canvasCoordinates.height = canvasHeight;
+   // this.getCanvasPosition(this.canvasCoordinates)
+   this.drawHexes();
+   const canvasID = this.canvasHex
+
+    const ctx = canvasID.getContext("2d");
+    //const { hexWidth, hexHeight, vertDist, horizDist } = this.state.hexParametres;
+    var sizeX = 4.5;
+    var sizeY = 4.5;
+    var sizeZ = 6; 
+     
+    ctx.scale(5, 5);
+   
+    // this.drawCube(84, 20.5, sizeX, sizeY, sizeZ, 'black');
+    // //this.drawCube(89.1, 29.3, sizeX, sizeY, sizeZ, 'black');
+    //  this.drawCube(78.8, 29.3, sizeX, sizeY, sizeZ, 'black');
+    //  this.drawCube(89.1, 47.2, sizeX, sizeY, sizeZ, 'black');
+    //  this.drawCube(78.8, 47.2, sizeX, sizeY, sizeZ, 'black');
+    //  this.drawCube(89.1, 66, sizeX, sizeY, sizeZ, 'black');
+    //  // this.drawCube(78.8, 66, sizeX, sizeY, sizeZ, 'black');
+    //  this.drawCube(84, 74.2, sizeX, sizeY, sizeZ, 'black');
+
+    //  this.drawCube(6, 29.3, sizeX, sizeY, sizeZ, '#00FFFF');
+    //  this.drawCube(11.1, 39.2, sizeX, sizeY, sizeZ, 'gold');
+    //  this.drawCube(6, 47.2, sizeX, sizeY, 5, 'blue');
+    //  this.drawCube(11.1, 56.9, sizeX, sizeY, sizeZ, 'gold');
+    //  this.drawCube(6, 66, sizeX, sizeY, sizeZ, '#00FFFF');
+
+    //  this.drawCube(162, 29.3, sizeX, sizeY, sizeZ, '#DC143C');
+    //  this.drawCube(156.8, 39.2, sizeX, sizeY, sizeZ, 'gold');
+    //  this.drawCube(162, 47.2, sizeX, sizeY, sizeZ, 'red');
+    //  this.drawCube(156.8, 56.9, sizeX, sizeY, sizeZ, 'gold');
+    //  this.drawCube(162, 66, sizeX, sizeY, sizeZ, '#DC143C');
+
   }
+
+   draw() {
+   
+  }
+  
+
+   drawCube(x, y, wx, wy, h, color) {
+
+    const canvasID = this.canvasHex
+
+    const ctx = canvasID.getContext("2d");
+    // left face
+    ctx.beginPath();
+    ctx.lineStyle = `${color}`
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - wx, y - wx * 0.6);
+    ctx.lineTo(x - wx, y - h - wx * 0.6);
+    ctx.lineTo(x, y - h * 1);
+    ctx.closePath();
+    //ctx.fillStyle = "#838357"
+    ctx.fillStyle = `${color}`
+    //ctx.strokeStyle = "#7a7a51";
+    ctx.fillStyle = `${color}`
+    ctx.lineJoin = "round";
+    ctx.stroke();
+    ctx.fill();
+
+    // right face
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + wy, y - wy * 0.6);
+    ctx.lineTo(x + wy, y - h - wy * 0.6);
+    ctx.lineTo(x, y - h * 1);
+    ctx.closePath();
+    //ctx.fillStyle = "#6f6f49";
+    ctx.fillStyle = `${color}`
+    //ctx.strokeStyle = "#676744";
+    ctx.fillStyle = `${color}`
+    ctx.stroke();
+    ctx.fill();
+
+    // center face
+    ctx.beginPath();
+    ctx.moveTo(x, y - h);
+    ctx.lineTo(x - wx, y - h - wx * 0.6);
+    ctx.lineTo(x - wx + wy, y - h - (wx * 0.6 + wy * 0.6));
+    ctx.lineTo(x + wy, y - h - wy * 0.6);
+    ctx.closePath();
+   // ctx.fillStyle = "#989865";
+   ctx.fillStyle = `${color}`
+   // ctx.strokeStyle = "#8e8e5e";
+   ctx.fillStyle = `${color}`
+    ctx.stroke();
+    ctx.fill();
+}
 
 
   getHexCornerCoord(center, i) {
@@ -241,11 +332,18 @@ export default class BFS extends React.Component {
      const { canvasWidth, canvasHeight } = this.state.canvasSize;
      const { hexWidth, hexHeight, vertDist, horizDist } = this.state.hexParametres;
      const hexOrigin = this.state.hexOrigin;
-     let qLeftSide = Math.round(hexOrigin.x/hexWidth) * 4;
-     let qRightSide = Math.round(canvasWidth - hexOrigin.x) / hexWidth * 2;
-     let rTopSide = Math.round(hexOrigin.y/(hexHeight/2));
-     let rBottomSide = Math.round((canvasHeight - hexOrigin.y)/(hexHeight/2));
+    //  let qLeftSide = Math.round(hexOrigin.x/hexWidth) * 4;
+    //  let qRightSide = Math.round(canvasWidth - hexOrigin.x) / hexWidth * 2;
+    //  let rTopSide = Math.round(hexOrigin.y/(hexHeight/2));
+    //  let rBottomSide = Math.round((canvasHeight - hexOrigin.y)/(hexHeight/2));
 
+    let qLeftSide = 7
+    let qRightSide = 16
+    let rTopSide = 7
+    let rBottomSide = 7
+
+
+     // P determines our even rows. if row is even we are incrimenting P which pushes the row over as far as P
      var p = 0;
      for(let r = 0; r <= rBottomSide; r++) {
        if(r % 2 == 0 && r !== 0) {
@@ -299,16 +397,72 @@ getHexParametres() {
   return { hexWidth, hexHeight, vertDist, horizDist }
 }
 
+ handleMouseMove(e) {
+  const {left, right, top, bottom } = this.state.canvasPosition;
+  let offsetX = e.pageX - left;
+  let offsetY = e.pageY - top
 
+}
 
+  getCanvasPosition(canvasID) {
+    let rect = canvasID.getBoundingClientRect();
+    this.setState({
+      canvasPosition: {
+        left: rect.left, 
+        right: right.rect, 
+        top: rect.top, 
+        bottom: rect.bottom
+      }
+    })
+  }
 
 
   render() {
     return (
       <View className="BFS">
+        <View className='playerStats'></View>
         <Canvas ref={canvasHex => this.canvasHex = canvasHex }></Canvas>
+        {/* <Canvas ref={canvasCoordinates => this.canvasCoordinates = canvasCoordinates} onMouseMove = {this.handleMouseMove}></Canvas> */}
+        <View className='playerCards'></View>
       </View>
     )
   }
 
+  
 }
+const styles = StyleSheet.create({
+canvas: {
+position: 'absolute',
+left: 0,
+
+},
+
+playerStats: {
+ backgroundColor: 'red',
+ minWidth: '100%',
+ minHeight: '5%',
+ position: 'absolute',
+  
+  },
+
+  playerCards: {
+   backgroundColor: 'blue',
+   minWidth: '100%',
+   minHeight: '10%',
+   position: 'absolute',
+    
+    },
+
+  canvas: {
+    position: 'absolute',
+    left: 0,
+    
+    },
+
+BFS: {
+minWidth: '100%',
+minHeight: '90%',
+}
+})
+
+

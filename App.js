@@ -20,8 +20,25 @@ export default function App() {
     
     return (
       <View style={styles.container}>
+        <View  style={styles.playerStats}></View>
 
-   <BFS></BFS>
+   <BFS style={styles.BFS}></BFS >
+   <View style={styles.playerCards}>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+
+   <View style={styles.aquireMeters}>
+   <View style={styles.reenforcements}></View>
+   <View style={styles.supplies}></View>
+   </View>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+   <View style={styles.cards}></View>
+   </View>
+
       </View>
 
   );
@@ -38,9 +55,59 @@ export default function App() {
    borderStyle: "solid",
    width: '100%',
    height: '100%',
-   backgroundColor: 'green'
+  // backgroundColor: 'green'
   
  },
+
+ cards: {
+  height: 65,
+  width: 45,
+  backgroundColor: 'green',
+  marginVertical: 15,
+  marginHorizontal: 20 
+ },
+
+ aquireMeters: {
+  height: '100%',
+  width: '30%',
+  backgroundColor: 'black',
+ },
+
+ reenforcements: {
+  height: 20,
+  width: '90%',
+  backgroundColor: 'green',
+  margin: 10
+ },
+
+ supplies: {
+  height: 20,
+  width: '90%',
+  backgroundColor: 'green',
+  margin: 10
+ },
+
+ playerStats: {
+  backgroundColor: 'red',
+  minWidth: '100%',
+  minHeight: '10%',
+  left: 0,
+  right: 0,
+  top: 0,
+  paddingLeft: 10,
+  paddingRight: 10
+   
+   },
+ 
+   playerCards: {
+    backgroundColor: 'blue',
+    minHeight: '22%',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 50
+     
+     },
  
  profiles: {
        width: '100%',
