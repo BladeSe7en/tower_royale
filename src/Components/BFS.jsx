@@ -193,7 +193,7 @@ export default class BFS extends React.Component {
     console.log(hexParametres)
 
     this.setState({
-      canvasSize: { canvasWidth: 850, canvasHeight: 300 },
+      canvasSize: { canvasWidth: 790, canvasHeight: 300 },
       hexParametres: hexParametres
     })
   }
@@ -211,32 +211,34 @@ export default class BFS extends React.Component {
 
     const ctx = canvasID.getContext("2d");
     //const { hexWidth, hexHeight, vertDist, horizDist } = this.state.hexParametres;
-    var sizeX = 4.5;
-    var sizeY = 4.5;
-    var sizeZ = 6; 
+    var sizeX = 4;
+    var sizeY = 4;
+    var sizeZ = 4.6; 
      
     ctx.scale(5, 5);
    
-    // this.drawCube(84, 20.5, sizeX, sizeY, sizeZ, 'black');
-    // //this.drawCube(89.1, 29.3, sizeX, sizeY, sizeZ, 'black');
-    //  this.drawCube(78.8, 29.3, sizeX, sizeY, sizeZ, 'black');
-    //  this.drawCube(89.1, 47.2, sizeX, sizeY, sizeZ, 'black');
-    //  this.drawCube(78.8, 47.2, sizeX, sizeY, sizeZ, 'black');
-    //  this.drawCube(89.1, 66, sizeX, sizeY, sizeZ, 'black');
-    //  // this.drawCube(78.8, 66, sizeX, sizeY, sizeZ, 'black');
-    //  this.drawCube(84, 74.2, sizeX, sizeY, sizeZ, 'black');
-
-    //  this.drawCube(6, 29.3, sizeX, sizeY, sizeZ, '#00FFFF');
-    //  this.drawCube(11.1, 39.2, sizeX, sizeY, sizeZ, 'gold');
-    //  this.drawCube(6, 47.2, sizeX, sizeY, 5, 'blue');
-    //  this.drawCube(11.1, 56.9, sizeX, sizeY, sizeZ, 'gold');
-    //  this.drawCube(6, 66, sizeX, sizeY, sizeZ, '#00FFFF');
-
-    //  this.drawCube(162, 29.3, sizeX, sizeY, sizeZ, '#DC143C');
-    //  this.drawCube(156.8, 39.2, sizeX, sizeY, sizeZ, 'gold');
-    //  this.drawCube(162, 47.2, sizeX, sizeY, sizeZ, 'red');
-    //  this.drawCube(156.8, 56.9, sizeX, sizeY, sizeZ, 'gold');
-    //  this.drawCube(162, 66, sizeX, sizeY, sizeZ, '#DC143C');
+    // top black
+    this.drawCube(84.2, 10.3, sizeX, sizeY, sizeZ, 'black');
+    this.drawCube(74.9, 10.3, sizeX, sizeY, sizeZ, 'black');
+     this.drawCube(79.5, 18.4, sizeX, sizeY, sizeZ, 'black');
+    // middle black
+     this.drawCube(79.5, 34.5, sizeX, sizeY, sizeZ, 'black');
+     // blottom black
+     this.drawCube(74.9, 58.8, sizeX, sizeY, sizeZ, 'black');
+     this.drawCube(84.2, 58.8, sizeX, sizeY, sizeZ, 'black');
+     this.drawCube(79.5, 50.8, sizeX, sizeY, sizeZ, 'black');
+    // blue base
+     this.drawCube(14, 18.5, sizeX, sizeY, sizeZ, '#00FFFF');
+     this.drawCube(9.3, 26.4, sizeX, sizeY, sizeZ, 'gold');
+     this.drawCube(14, 34.6, sizeX, sizeY, 5, 'blue'); 
+     this.drawCube(9.3, 42.8, sizeX, sizeY, sizeZ, 'gold');
+     this.drawCube(14, 50.7, sizeX, sizeY, sizeZ, '#00FFFF');
+    // red base
+     this.drawCube(145, 18.5, sizeX, sizeY, sizeZ, '#DC143C');
+     this.drawCube(149.6, 26.4, sizeX, sizeY, sizeZ, 'gold');
+     this.drawCube(145, 34.6, sizeX, sizeY, sizeZ, 'red');
+     this.drawCube(149.6, 42.8, sizeX, sizeY, sizeZ, 'gold');
+     this.drawCube(145, 50.7, sizeX, sizeY, sizeZ, '#DC143C');
 
   }
 
@@ -359,7 +361,7 @@ export default class BFS extends React.Component {
      }
      var n = 0;
      for(let r = -1; r >= -rTopSide; r--) {
-        if(r%2 !== 0) {
+        if(r%2 == 0) {
           n++;
         }
         for(let q = -qLeftSide; q <= qRightSide; q++) {
