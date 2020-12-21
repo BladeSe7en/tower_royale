@@ -171,8 +171,17 @@
 
 
 // The code below here Works! needs to be refactored to a functional component 
+
+
+
+
+
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import CanvasCoordinates from './CanvasCoordinates';
+import DrawCube from './DrawCube';
+
+
 
 export default class BFS extends React.Component {
   constructor(props) {
@@ -182,8 +191,8 @@ export default class BFS extends React.Component {
 
     this.state = {
       hexSize: 27,
-      hexOrigin: { x: 0, y: 28 }
-
+      hexOrigin: { x: 0, y: 28 },
+      canvasSize: { canvasWidth: 1, canvasHeight: 1 }
     }
 
   }
@@ -191,6 +200,8 @@ export default class BFS extends React.Component {
   componentWillMount(){
     let hexParametres = this.getHexParametres();
     console.log(hexParametres)
+
+   
 
     this.setState({
       canvasSize: { canvasWidth: 790, canvasHeight: 300 },
@@ -203,13 +214,19 @@ export default class BFS extends React.Component {
     const { canvasWidth, canvasHeight } = this.state.canvasSize;
     this.canvasHex.width = canvasWidth;
     this.canvasHex.height = canvasHeight;
-   // this.canvasCoordinates.width = canvasWidth;
-   // this.canvasCoordinates.height = canvasHeight;
-   // this.getCanvasPosition(this.canvasCoordinates)
-   this.drawHexes();
-   const canvasID = this.canvasHex
 
+    
+    let d = Dimensions.get('screen')
+    
+    
+    
+    
+    
+    this.drawHexes();
+    const canvasID = this.canvasHex
     const ctx = canvasID.getContext("2d");
+    this.props.canvasIDHandler(canvasID)
+   
     //const { hexWidth, hexHeight, vertDist, horizDist } = this.state.hexParametres;
     var sizeX = 4;
     var sizeY = 4;
@@ -218,84 +235,33 @@ export default class BFS extends React.Component {
     ctx.scale(5, 5);
    
     // top black
-    this.drawCube(84.2, 10.3, sizeX, sizeY, sizeZ, 'black');
-    this.drawCube(74.9, 10.3, sizeX, sizeY, sizeZ, 'black');
-     this.drawCube(79.5, 18.4, sizeX, sizeY, sizeZ, 'black');
+    drawCube(84.2, 10.3, sizeX, sizeY, sizeZ, 'black', ctx);
+    drawCube(74.9, 10.3, sizeX, sizeY, sizeZ, 'black', ctx);
+     drawCube(79.5, 18.4, sizeX, sizeY, sizeZ, 'black', ctx);
     // middle black
-     this.drawCube(79.5, 34.5, sizeX, sizeY, sizeZ, 'black');
+     drawCube(79.5, 34.5, sizeX, sizeY, sizeZ, 'black', ctx);
      // blottom black
-     this.drawCube(74.9, 58.8, sizeX, sizeY, sizeZ, 'black');
-     this.drawCube(84.2, 58.8, sizeX, sizeY, sizeZ, 'black');
-     this.drawCube(79.5, 50.8, sizeX, sizeY, sizeZ, 'black');
+     drawCube(74.9, 58.8, sizeX, sizeY, sizeZ, 'black', ctx);
+     drawCube(84.2, 58.8, sizeX, sizeY, sizeZ, 'black', ctx);
+     drawCube(79.5, 50.8, sizeX, sizeY, sizeZ, 'black', ctx);
     // blue base
-     this.drawCube(14, 18.5, sizeX, sizeY, sizeZ, '#00FFFF');
-     this.drawCube(9.3, 26.4, sizeX, sizeY, sizeZ, 'gold');
-     this.drawCube(14, 34.6, sizeX, sizeY, 5, 'blue'); 
-     this.drawCube(9.3, 42.8, sizeX, sizeY, sizeZ, 'gold');
-     this.drawCube(14, 50.7, sizeX, sizeY, sizeZ, '#00FFFF');
+     drawCube(14, 18.5, sizeX, sizeY, sizeZ, '#00FFFF', ctx);
+     drawCube(9.3, 26.4, sizeX, sizeY, sizeZ, 'gold', ctx);
+     drawCube(14, 34.6, sizeX, sizeY, 5, 'blue', ctx); 
+     drawCube(9.3, 42.8, sizeX, sizeY, sizeZ, 'gold', ctx);
+     drawCube(14, 50.7, sizeX, sizeY, sizeZ, '#00FFFF', ctx);
     // red base
-     this.drawCube(145, 18.5, sizeX, sizeY, sizeZ, '#DC143C');
-     this.drawCube(149.6, 26.4, sizeX, sizeY, sizeZ, 'gold');
-     this.drawCube(145, 34.6, sizeX, sizeY, sizeZ, 'red');
-     this.drawCube(149.6, 42.8, sizeX, sizeY, sizeZ, 'gold');
-     this.drawCube(145, 50.7, sizeX, sizeY, sizeZ, '#DC143C');
+     drawCube(145, 18.5, sizeX, sizeY, sizeZ, '#DC143C', ctx);
+     drawCube(149.6, 26.4, sizeX, sizeY, sizeZ, 'gold', ctx);
+     drawCube(145, 34.6, sizeX, sizeY, sizeZ, 'red', ctx);
+     drawCube(149.6, 42.8, sizeX, sizeY, sizeZ, 'gold', ctx);
+     drawCube(145, 50.7, sizeX, sizeY, sizeZ, '#DC143C', ctx);
 
   }
 
    draw() {
    
   }
-  
-
-   drawCube(x, y, wx, wy, h, color) {
-
-    const canvasID = this.canvasHex
-
-    const ctx = canvasID.getContext("2d");
-    // left face
-    ctx.beginPath();
-    ctx.lineStyle = `${color}`
-    ctx.moveTo(x, y);
-    ctx.lineTo(x - wx, y - wx * 0.6);
-    ctx.lineTo(x - wx, y - h - wx * 0.6);
-    ctx.lineTo(x, y - h * 1);
-    ctx.closePath();
-    //ctx.fillStyle = "#838357"
-    ctx.fillStyle = `${color}`
-    //ctx.strokeStyle = "#7a7a51";
-    ctx.fillStyle = `${color}`
-    ctx.lineJoin = "round";
-    ctx.stroke();
-    ctx.fill();
-
-    // right face
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + wy, y - wy * 0.6);
-    ctx.lineTo(x + wy, y - h - wy * 0.6);
-    ctx.lineTo(x, y - h * 1);
-    ctx.closePath();
-    //ctx.fillStyle = "#6f6f49";
-    ctx.fillStyle = `${color}`
-    //ctx.strokeStyle = "#676744";
-    ctx.fillStyle = `${color}`
-    ctx.stroke();
-    ctx.fill();
-
-    // center face
-    ctx.beginPath();
-    ctx.moveTo(x, y - h);
-    ctx.lineTo(x - wx, y - h - wx * 0.6);
-    ctx.lineTo(x - wx + wy, y - h - (wx * 0.6 + wy * 0.6));
-    ctx.lineTo(x + wy, y - h - wy * 0.6);
-    ctx.closePath();
-   // ctx.fillStyle = "#989865";
-   ctx.fillStyle = `${color}`
-   // ctx.strokeStyle = "#8e8e5e";
-   ctx.fillStyle = `${color}`
-    ctx.stroke();
-    ctx.fill();
-}
 
 
   getHexCornerCoord(center, i) {
@@ -334,6 +300,8 @@ export default class BFS extends React.Component {
      const { canvasWidth, canvasHeight } = this.state.canvasSize;
      const { hexWidth, hexHeight, vertDist, horizDist } = this.state.hexParametres;
      const hexOrigin = this.state.hexOrigin;
+
+     // this code will draw as many hexes as possible to fill canvas. 
     //  let qLeftSide = Math.round(hexOrigin.x/hexWidth) * 4;
     //  let qRightSide = Math.round(canvasWidth - hexOrigin.x) / hexWidth * 2;
     //  let rTopSide = Math.round(hexOrigin.y/(hexHeight/2));
@@ -406,26 +374,13 @@ getHexParametres() {
 
 }
 
-  getCanvasPosition(canvasID) {
-    let rect = canvasID.getBoundingClientRect();
-    this.setState({
-      canvasPosition: {
-        left: rect.left, 
-        right: right.rect, 
-        top: rect.top, 
-        bottom: rect.bottom
-      }
-    })
-  }
-
-
   render() {
+
+    const { canvasWidth, canvasHeight } = this.state.canvasSize;
     return (
-      <View className="BFS">
+      <View  >
         <View className='playerStats'></View>
-        <Canvas ref={canvasHex => this.canvasHex = canvasHex }></Canvas>
-        {/* <Canvas ref={canvasCoordinates => this.canvasCoordinates = canvasCoordinates} onMouseMove = {this.handleMouseMove}></Canvas> */}
-        <View className='playerCards'></View>
+        <Canvas style={styles.canvas} ref={canvasHex => this.canvasHex = canvasHex } ></Canvas>
       </View>
     )
   }
@@ -434,32 +389,20 @@ getHexParametres() {
 }
 const styles = StyleSheet.create({
 canvas: {
-position: 'absolute',
 left: 0,
+top: 0,
 
 },
-
-playerStats: {
- backgroundColor: 'red',
- minWidth: '100%',
- minHeight: '5%',
- position: 'absolute',
-  
+canvasCoordinates: {
+// position: 'absolute',
+  //height: '100%',
+  //width: '100%',
+  left: 0,
+   backgroundColor: '#ce0e0e'
   },
 
-  playerCards: {
-   backgroundColor: 'blue',
-   minWidth: '100%',
-   minHeight: '10%',
-   position: 'absolute',
-    
-    },
 
-  canvas: {
-    position: 'absolute',
-    left: 0,
-    
-    },
+ 
 
 BFS: {
 minWidth: '100%',

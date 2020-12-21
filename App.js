@@ -1,164 +1,74 @@
-//   const window = Dimensions.get("window");
-//   const screen = Dimensions.get("screen");
-//     const [dimensions, setDimensions] = useState({ window, screen });
 
 
 //import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component, useEffect, useState, useRef } from 'react';
+import { StyleSheet, Text, Alert, View, Dimensions, PanResponder, Animated, TouchableOpacity } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import BFS from './src/Components/BFS';
+// import BFS from './src/Components/BFS';
+// import CanvasCoordinates from './src/Components/CanvasCoordinates'
+// import Draggable from './src/Components/Draggable'
+// import drawCube from './src/Components/DrawCube';
+// import TowerCanvas from './src/Components/TowerCanvas';
+// import CardFlip from 'react-native-card-flip';
+import Constants from './src/functions.js/Constants';
+import { GameEngine } from "react-native-game-engine";
+import Matter from 'matter-js';
+import HexGrid from './src/functions.js/HexGrid';
 
-async function changeScreenOrientation() {
-  await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+
+export async function changeScreenOrientation() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
 }
 
-export default function App() {
-  useEffect(() => {
-    changeScreenOrientation()
-  }, []);
-    
-    return (
-      <View style={styles.container}>
-        <View  style={styles.playerStats}></View>
-
-   <BFS style={styles.BFS}></BFS >
-   <View style={styles.playerCards}>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-
-   <View style={styles.aquireMeters}>
-   <View style={styles.reenforcements}></View>
-   <View style={styles.supplies}></View>
-   </View>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-   <View style={styles.cards}></View>
-   </View>
-
-      </View>
-
-  );
-
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.gameEngine = null;
+        this.entities = this.setupWorld()
     }
-  
-  const styles = StyleSheet.create({
+
+    componentWillMount() {
+        changeScreenOrientation()
+    }
+
+
+    setupWorld = () => {
+        let engine = Matter.Engine.create({ enableSleeping: false });
+        let world = engine.world
+        // let grid = Matter.Grid.create()
+        let box = Matter.Bodies.rectangle( 400, 200, 80, 80)
+
+        Matter.World.add(world, [box])
+
+        return {
+            physics: { engine: engine, world: world },
+            HexGrid: { body: HexGrid, size: [100, 100], color: 'red', renderer: HexGrid }
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <GameEngine
+                    ref={ (ref) => { this.gameEngine = ref } }
+                    style={styles.gameContainer}
+                    entities={this.entities} >
+                </GameEngine>
+            </View>
+        );
+    }
+
+}
+
+const styles = StyleSheet.create({
     container: {
-   flex: 1,
-   justifyContent: "center",
-   alignItems: "center",
-   borderColor: 'black',
-   borderWidth: 1,
-   borderStyle: "solid",
-   width: '100%',
-   height: '100%',
-  // backgroundColor: 'green'
-  
- },
+        // alignItems: "center",
+        // borderColor: 'black',
+        // borderWidth: 1,
+        // borderStyle: "solid",
+        // width: '100%',
+        // height: '100%',
+        // backgroundColor: 'green'
 
- cards: {
-  height: 65,
-  width: 45,
-  backgroundColor: 'green',
-  marginVertical: 15,
-  marginHorizontal: 20 
- },
-
- aquireMeters: {
-  height: '100%',
-  width: '30%',
-  backgroundColor: 'black',
- },
-
- reenforcements: {
-  height: 20,
-  width: '90%',
-  backgroundColor: 'green',
-  margin: 10
- },
-
- supplies: {
-  height: 20,
-  width: '90%',
-  backgroundColor: 'green',
-  margin: 10
- },
-
- playerStats: {
-  backgroundColor: 'red',
-  minWidth: '100%',
-  minHeight: '10%',
-  left: 0,
-  right: 0,
-  top: 0,
-  paddingLeft: 10,
-  paddingRight: 10
-   
-   },
- 
-   playerCards: {
-    backgroundColor: 'blue',
-    minHeight: '22%',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 50
-     
-     },
- 
- profiles: {
-       width: '100%',
-   height: '100%',
-   marginTop: 0,
-   flexDirection: 'row',
-   alignItems: 'center',
- },
-
- profiles: {
-       flex: 2,
-   justifyContent: 'space-between',
-   backgroundColor: 'red',
-   width: '100%',
-   maxHeight: '10%',
-   marginTop: 40,
-   flexDirection: 'row',
-   flexWrap: 'wrap',
- },
-
- player1: {
-       backgroundColor: 'red',
-   width: '38%',
-   //display: 'flex',
-   alignContent: 'center',
-   paddingLeft: '1%',
-   paddingRight: '1%',
-   alignItems: 'center',
- },
-
- player2: {
-       backgroundColor: 'green',
-   width: '38%',
-   //display: 'flex',
-   alignContent: 'center',
-   paddingLeft: '1%',
-   paddingRight: '1%',
-   alignItems: 'center',
- },
-
- time: {
-       backgroundColor: 'blue',
-   width: '24%',
-   //display: 'flex',
-   alignContent: 'center',
-   paddingLeft: '1%',
-   paddingRight: '1%',
-   alignItems: 'center',
- },
-
- 
-
-
+    },
 });
