@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   draggable: {
     height: 65,
     width: 45,
-    backgroundColor: 'pink',
+    backgroundColor: 'blue',
    
     borderRadius: 5,
   },

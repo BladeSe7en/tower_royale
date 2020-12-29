@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import debounce from "lodash/debounce";
 
 
-
 export default useDimensions = () => {
   const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
